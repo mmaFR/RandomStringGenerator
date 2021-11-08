@@ -7,6 +7,11 @@ import (
 
 const LETTERS string = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-*/.=}])@^\_|([{#~&'`
 
+type Generator interface {
+	Generate(int) string
+	Read([]byte) (int, error)
+}
+
 type generator struct {
 	initialized bool
 	letters     string
@@ -39,7 +44,7 @@ func (g *generator) Read(p []byte) (n int, err error) {
 	return len(p), nil
 }
 
-func NewGenerator(letters ...string) *generator {
+func NewGenerator(letters ...string) Generator {
 	var generator *generator = new(generator)
 	if len(letters) > 0 {
 		generator.setLetters(letters[0])
